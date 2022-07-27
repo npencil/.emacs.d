@@ -1,0 +1,8 @@
+elpa/
+auto-save-list/
+image-dired/
+backups/
+org-templates
+session*
+**/*~undo-tree~
+**/*#*
