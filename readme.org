@@ -1,0 +1,41 @@
+Dependency: (~.el~ omitted)
+- init
+  - init-elpa
+  - init-use-package
+  - init-theme
+  - init-font
+  - init-paren
+  - init-whitespace
+  - init-dashboard
+  - init-mode-line
+  - init-smart-mode-line
+  - init-file
+  - init-keys
+  - init-god-mode
+  - init-which-key
+  - init-prog-mode
+  - init-lsp-mode
+  - init-hungry-delete
+  - init-ace-window: [[https://github.com/abo-abo/ace-window][ace-window]], fast window switching.
+  - [ ] init-multiple-cursors:
+    [[https://github.com/magnars/multiple-cursors.el][multiple-cursors]]
+  - init-undo-tree
+  - [ ] init-helm: [[https://github.com/emacs-helm/helm][helm]], completions and selections, mini buffer.
+  - init-company
+  - init-yasnippet
+  - init-yasupp: [[https://github.com/ywangmy/yasupp.el][yasupp]], yasnippet
+    supplementary
+  - init-aas
+  - init-treemacs
+  - init-imenu-list: [[https://github.com/bmag/imenu-list][imenu-list]],
+      collocated with major modes to display code structure.
+  - init-cpp
+  - init-yaml
+  - init-json
+  - init-latex
+  - init-markdown
+  - init-org
+  - init-python
+  - init-coq
+  - init-flycheck
+  - init-ispell

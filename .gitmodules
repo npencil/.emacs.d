@@ -1,0 +1,3 @@
+[submodule "yasnippets"]
+	path = yasnippets
+	url = git@github.com:ywangmy/yasnippets.git
