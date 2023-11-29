@@ -2,6 +2,7 @@
 
 (use-package yasnippet
   :straight t
+  :defer t
   :init
   (yas-global-mode 1)
   :hook ((post-self-insert . my/yas-try-expanding-auto-snippets))

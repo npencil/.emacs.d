@@ -1,5 +1,6 @@
 (use-package reftex
   :straight t
+  :defer t
   ;; turn on if LaTeX-mode-hook
   :hook (LaTeX-mode . turn-on-reftex)
   :config
@@ -9,6 +10,7 @@
 
 (use-package cdlatex
   :straight t
+  :defer t
   ;; turn on if LaTeX-mode-hook
   :hook (LaTeX-mode . turn-on-cdlatex)
   :custom
@@ -45,6 +47,7 @@
 ;;   )
 
 (use-package preview
+  :defer t
   :mode "\\.tex\\'"
   :custom
   (preview-image-type 'dvipng)
@@ -57,6 +60,7 @@
 ;; See this post https://stackoverflow.com/a/70178950/21201947
 
 (use-package tex-mode
+  :defer t
   :mode "\\.tex\\'"
   :config
   (setq tex--prettify-symbols-alist
@@ -84,8 +88,20 @@
                   ("\\rrbracket" . ?⟧))))
   )
 
+(use-package tex
+  :defer t
+  :custom
+  (TeX-auto-save t)
+  (TeX-parse-self t)
+  (TeX-master nil)
+  (TeX-show-compilation nil)
+  (TeX-command-extra-options "--shell-escape")
+  (TeX-newline-function 'reindent-then-newline-and-indent)
+  )
+
 (use-package latex
   :straight auctex
+  :defer t
   :mode ("\\.tex\\'" . TeX-latex-mode)
   :hook (
          (LaTeX-mode . prettify-symbols-mode)
@@ -98,9 +114,6 @@
               )
   :config
   ;; make AUCTeX aware of style files and multifile documents
-  (setq TeX-auto-save t)
-  (setq TeX-parse-self t)
-  (setq-default TeX-master nil)
   ;; add-to-list only AFTER package loaded
   (add-to-list 'LaTeX-verbatim-environments "lstlisting")
   (add-to-list 'LaTeX-verbatim-environments "lstinputlisting")
@@ -118,7 +131,6 @@
 
   :custom
   (LaTeX-fill-excluded-macros '("hypersetup" "title" "author" "date"))
-  (TeX-newline-function 'reindent-then-newline-and-indent)
   ;; Braces: https://www.gnu.org/software/auctex/manual/auctex.html#Quotes
   (LaTeX-electric-left-right-brace t)
   )

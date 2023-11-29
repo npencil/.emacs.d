@@ -1,5 +1,6 @@
 (use-package treemacs
   :straight t
+  :defer t
   :bind (:map global-map
               ("M-0" . treemacs))
   :config

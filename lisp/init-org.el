@@ -1,12 +1,11 @@
 (use-package org
-  :straight (org-mode
-             :type git
-             :repo "https://git.tecosaur.net/tec/org-mode.git")
+  :straight (:type built-in)
+  :defer t
   :hook (;;(org-mode . turn-on-auto-fill)
          (org-mode . turn-on-org-cdlatex)
          )
   :init
-  (setq org-directory "~/org")
+  (setq org-directory "~/notes/org")
   :custom
   ;; (org-directory "~/org")
   (org-use-sub-superscripts '{})
@@ -27,7 +26,7 @@
   :config
   ;; Org LaTeX
   (setq org-latex-packages-alist '(("" "my" t)))
-  (setq org-format-latex-options (plist-put org-format-latex-options ':html-scale 0.8))
+  ;;(setq org-format-latex-options (plist-put org-format-latex-options ':html-scale 0.75))
   :bind
   (("C-c a" . org-agenda)
    :map org-cdlatex-mode-map
@@ -38,7 +37,12 @@
 
 (use-package org-appear
   :straight t
+  :defer t
   :hook ((org-mode . org-appear-mode))
+  :custom
+  (org-appear-autoentities t)
+  (org-appear-autosubmarkers t)
+  (org-appear-inside-latex t)
   )
 
 (use-package org-capture
@@ -68,8 +72,7 @@
   :bind ("C-c a" . org-agenda)
   :custom
   (org-agenda-files
-   '("~/notes/org-src" "~/org"
-     "~/notes/comp4901x" "~/notes/fudan"
+   '("~/notes/org-src" "~/notes/org"
      ))
   )
 
@@ -93,94 +96,68 @@
          )
   )
 
+(use-package ox-latex
+  :defer t
+  :config
+  ;; unicode
+  (setq org-latex-inputenc-alist '(("utf8" . "utf8x")))
+  )
+
 ;; Org HTML
 (use-package ox-html
-  :straight (htmlize)
+  :straight htmlize
+  :defer t
   :custom
-  (org-html-with-latex 'dvisvgm)
+  (org-html-with-latex 'mathjax)
   ;; support arbitrary blocks
   (org-html-doctype "html5")
   (org-html-html5-fancy t)
+  (org-html-mathjax-template
+   "<script>
+  window.MathJax = {
+    loader: {load: ['[tex]/mathtools']},
+    tex: {
+      packages: {'[+]': ['mathtools']},
+      ams: {
+        multlineWidth: '%MULTLINEWIDTH'
+      },
+      tags: '%TAGS',
+      tagSide: '%TAGSIDE',
+      tagIndent: '%TAGINDENT'
+    },
+    chtml: {
+      scale: %SCALE,
+      displayAlign: '%ALIGN',
+      displayIndent: '%INDENT'
+    },
+    svg: {
+      scale: %SCALE,
+      displayAlign: '%ALIGN',
+      displayIndent: '%INDENT'
+    },
+    output: {
+      font: '%FONT',
+      displayOverflow: '%OVERFLOW'
+    }
+  };
+</script>
+
+<script
+  id=\"MathJax-script\"
+  async
+  src=\"%PATH\">
+</script>")
   )
 
-(use-package ox-latex
-  :custom
-  (org-latex-math-environments-re "\\`[ 	]*\\\\\\[\\|\\\\begin{\\(?:align\\(?:at\\)?\\|d\\(?:array\\|group\\|isplaymath\\|math\\|series\\)\\|e\\(?:mpheq\\|q\\(?:narray\\|uation\\)\\)\\|flalign\\|gather\\|m\\(?:ath\\|ultline\\)\\|subequations\\|x\\(?:x?alignat\\)\\)\\*?}"))
-
 (use-package ox
+  :defer t
   :custom
-  (org-export-with-creator t)
+  (org-export-with-creator nil)
   (org-export-with-date nil)
   (org-export-with-sub-superscripts '{}))
 
 ;; Publishing
-(use-package ox-publish
-  :custom
-  (org-publish-list-skipped-files nil) ;; a lot of unchanged svg files
-  (org-html-validation-link nil)
-  (org-html-head-include-default-style nil)
-  ;; inserted into <head>
-  (org-html-head
-   (with-temp-buffer
-     (insert-file-contents-literally "~/notes/org-src/head.html")
-     (buffer-substring-no-properties (point-min) (point-max))))
-  (org-html-home/up-format
-   (with-temp-buffer
-     (insert-file-contents-literally "~/notes/org-src/home-up.html")
-     (buffer-substring-no-properties (point-min) (point-max)))
-   )
-  (org-html-preamble
-   (with-temp-buffer
-     (insert-file-contents-literally "~/notes/org-src/preamble.html")
-     (buffer-substring-no-properties (point-min) (point-max))))
-  (org-html-postamble t)
-  (org-html-postamble-format
-   `(("en"
-     ,(with-temp-buffer
-       (insert-file-contents-literally "~/notes/org-src/postamble.html")
-       (buffer-substring-no-properties (point-min) (point-max))))))
-  (org-html-prefer-user-labels t)
-  (org-html-self-link-headlines t)
-  ;;(org-html-use-infojs t)
-  (org-html-link-home "/blog/index.html")
-  (org-html-link-up "../")
-  ;; for with creator/date, see ox
-  :config
-  (setq org-publish-project-alist
-        '(
-          ;; the main project
-          ("org-blog"
-           :components ("static" "org-src")
-           )
-          ;; sub-projects
-          ("static"
-           :base-directory "~/notes/org-src/"
-           :base-extension "css\\|js\\|svg\\|woff\\|woff2\\|png\\|pdf"
-           :publishing-directory "~/org-blog/"
-           :exclude: ".*private/.*"
-           :recursive t
-           :publishing-function (org-publish-attachment)
-           )
-          ("org-src"
-           :base-directory "~/notes/org-src/"
-           :publishing-directory "~/org-blog/"
-           :exclude ".*\.draft\.org\\|.*private/.*"
-           :base-extension "org"
-           :recursive t
-           :publishing-function (org-html-publish-to-html)
-           :auto-sitemap t
-           :sitemap-title "Sitemap"
-           :makeindex t
-           )
-          ;; ("private"
-          ;;  :base-directory "~/org-src/private"
-          ;;  :publishing-directory "~/org-blog/private"
-          ;;  :base-extension "org"
-          ;;  :recursive t
-          ;;  :publishing-function (org-html-publish-to-html)
-          ;;  )
-          ))
-  )
+(require 'init-org-publish)
 
 ;; (require 'org-latex-preview)
 ;; (use-package org-latex-preview

@@ -8,6 +8,8 @@
 ;;(set-fringe-mode '(0 . 4))
 ;;(global-display-line-numbers-mode)
 
+(setq-default cursor-type 'bar)
+
 ;; text
 (setq-default require-final-newline nil)
 (setq-default indent-tabs-mode nil)

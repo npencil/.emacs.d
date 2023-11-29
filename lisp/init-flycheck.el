@@ -1,5 +1,6 @@
 (use-package flycheck
   :straight t
+  :defer t
   :init
   (global-flycheck-mode)
   :config

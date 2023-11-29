@@ -1,6 +1,7 @@
 ;; aas and laas
  (use-package laas
    :straight t
+   :defer t
    :hook ((LaTeX-mode . laas-mode)
           (org-mode . laas-mode)
           )

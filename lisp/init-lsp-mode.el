@@ -1,6 +1,7 @@
 ;; https://emacs-lsp.github.io/lsp-mode/page/installation/#use-package
 (use-package lsp-mode
   :straight t
+  :defer t
   :init
   ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
   (setq lsp-keymap-prefix "C-c l")
@@ -16,6 +17,7 @@
 ;; optionally
 (use-package lsp-ui
   :straight t
+  :defer t
   :commands lsp-ui-mode
   ;;https://emacs-lsp.github.io/lsp-mode/tutorials/how-to-turn-off/
   :custom
@@ -27,19 +29,18 @@
 ;;   :ensure t
 ;;   :commands helm-lsp-workspace-symbol)
 ;; if you are ivy user
-(use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
+(use-package lsp-ivy
+  :defer t
+  :commands lsp-ivy-workspace-symbol)
 (use-package lsp-treemacs
   :straight t
+  :defer t
   :commands lsp-treemacs-errors-list)
 
 ;; optionally if you want to use debugger
 ;; (use-package dap-mode)
 ;; (use-package dap-LANGUAGE) to load the dap adapter for your language
 
-;; optional if you want which-key integration
-(use-package which-key
-    :config
-    (which-key-mode))
 
 ;; Languages
 
@@ -50,23 +51,23 @@
 ;; Extract it, rename the folder "ltex-ls-xx.x.x" with "latest"
 ;; Validation: Open a markup doc, and you will see
 ;; "LSP :: ltex-ls:xxxx initialized successfully in folders ..."
-(use-package lsp-ltex
-  :straight t
-  :hook ((LaTeX-mode) . (lambda ()
-                       (require 'lsp-ltex)
-                       (lsp-deferred)))  ; or lsp-deferred
-  :init
-  (setq lsp-ltex-version "16.0.0")  ; make sure you have set this, see below
-  :custom
-  (lsp-ltex-language "en-US")
-  )
+;; (use-package lsp-ltex
+;;   :straight t
+;;   :hook ((LaTeX-mode) . (lambda ()
+;;                        (require 'lsp-ltex)
+;;                        (lsp-deferred)))  ; or lsp-deferred
+;;   :init
+;;   (setq lsp-ltex-version "16.0.0")  ; make sure you have set this, see below
+;;   :custom
+;;   (lsp-ltex-language "en-US")
+;;   )
 
 ;; https://github.com/emacs-grammarly/lsp-grammarly
-(use-package lsp-grammarly
-  :straight t
-  :hook (org-mode . (lambda ()
-                       (require 'lsp-grammarly)
-                       (lsp-deferred)))  ; or lsp
-  )
+;; (use-package lsp-grammarly
+;;   :straight t
+;;   :hook (org-mode . (lambda ()
+;;                        (require 'lsp-grammarly)
+;;                        (lsp-deferred)))  ; or lsp
+;;   )
 
 (provide 'init-lsp-mode)

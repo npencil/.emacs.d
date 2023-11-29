@@ -1,5 +1,6 @@
 (use-package company
   :straight t
+  :defer t
   :init
   (global-company-mode)
   :custom

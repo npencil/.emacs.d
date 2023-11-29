@@ -1,6 +1,7 @@
 ;; markdown-mode
 (use-package markdown-mode
   :straight t
+  :defer t
   :hook
   (markdown-mode . imenu-add-menubar-index)
   (markdown-mode . turn-on-auto-fill)
