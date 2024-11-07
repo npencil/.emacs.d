@@ -7,27 +7,27 @@
   ;; inserted into <head>
   (org-html-head
    (with-temp-buffer
-     (insert-file-contents-literally "~/notes/org-src/head.html")
+     (insert-file-contents-literally "~/org-src/head.html")
      (buffer-substring-no-properties (point-min) (point-max))))
   (org-html-home/up-format
    (with-temp-buffer
-     (insert-file-contents-literally "~/notes/org-src/home-up.html")
+     (insert-file-contents-literally "~/org-src/home-up.html")
      (buffer-substring-no-properties (point-min) (point-max)))
    )
   (org-html-preamble
    (with-temp-buffer
-     (insert-file-contents-literally "~/notes/org-src/preamble.html")
+     (insert-file-contents-literally "~/org-src/preamble.html")
      (buffer-substring-no-properties (point-min) (point-max))))
   (org-html-postamble t)
   (org-html-postamble-format
    `(("en"
       ,(with-temp-buffer
-         (insert-file-contents-literally "~/notes/org-src/postamble.html")
+         (insert-file-contents-literally "~/org-src/postamble.html")
          (buffer-substring-no-properties (point-min) (point-max))))))
   (org-html-prefer-user-labels t)
   (org-html-self-link-headlines t)
   ;;(org-html-use-infojs t)
-  (org-html-link-home "/blog/index.html")
+  (org-html-link-home "/index.html")
   (org-html-link-up "../")
   ;; for with creator/date, see ox
   :config
@@ -39,14 +39,14 @@
            )
           ;; sub-projects
           ("static"
-           :base-directory "~/notes/org-src/"
+           :base-directory "~/org-src/"
            :base-extension "css\\|js\\|svg\\|woff\\|woff2\\|png\\|pdf"
            :publishing-directory "~/blog/"
            :recursive t
            :publishing-function (org-publish-attachment)
            )
           ("org-src"
-           :base-directory "~/notes/org-src/"
+           :base-directory "~/org-src/"
            :publishing-directory "~/blog/"
            ;; :exclude "\\(.*\\.draft\\.org.*\\)\\|\\(.*private/.*\\)\\|\\(.*references/.*\\)\\|\\(.*math/.*\\)"
            ;;:include "index.org"

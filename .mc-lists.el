@@ -19,4 +19,5 @@
 (setq mc/cmds-to-run-once
       '(
         mouse-buffer-menu
+        org-delete-indentation
         ))

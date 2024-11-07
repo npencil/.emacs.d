@@ -8,6 +8,8 @@
   (setq org-directory "~/notes/org")
   :custom
   ;; (org-directory "~/org")
+
+  (org-startup-folded 'content)
   (org-use-sub-superscripts '{})
   (org-default-notes-file (concat org-directory "/notes.org"))
   (org-allow-promoting-top-level-subtree t)
@@ -25,8 +27,9 @@
   (org-id-link-to-org-use-id 'create-if-interactive-and-no-custom-id)
   :config
   ;; Org LaTeX
-  (setq org-latex-packages-alist '(("" "my" t)))
+  ;;(setq org-latex-packages-alist '(("" "my" t)))
   ;;(setq org-format-latex-options (plist-put org-format-latex-options ':html-scale 0.75))
+  (require 'oc-bibtex)
   :bind
   (("C-c a" . org-agenda)
    :map org-cdlatex-mode-map
@@ -34,6 +37,11 @@
    ("C-\\" . org-cdlatex-math-modify)
    )
   )
+
+(add-hook 'org-mode-hook (lambda ()
+           (setq-local electric-pair-inhibit-predicate
+                   `(lambda (c)
+                  (if (char-equal c ?<) t (,electric-pair-inhibit-predicate c))))))
 
 (use-package org-appear
   :straight t
@@ -53,28 +61,24 @@
    '(("t" "Tasks" entry (file+headline (lambda () (concat org-directory "/capture.org")) "Tasks") "* TODO %?\n  %U\n  %a")))
   )
 
-(use-package org-roam
-  :straight t
-  :custom
-  (org-roam-directory (file-truename "~/org-roam"))
-  :bind (("C-c n l" . org-roam-buffer-toggle)
-         ("C-c n f" . org-roam-node-find)
-         ("C-c n g" . org-roam-graph)
-         ("C-c n i" . org-roam-node-insert)
-         ("C-c n c" . org-roam-capture)
-         ;; Dailies
-         ("C-c n j" . org-roam-dailies-capture-today))
-  :config
-  (org-roam-db-autosync-mode))
+;; (use-package org-roam
+;;   :straight t
+;;   :custom
+;;   (org-roam-directory (file-truename "~/org-roam"))
+;;   :bind (("C-c n l" . org-roam-buffer-toggle)
+;;          ("C-c n f" . org-roam-node-find)
+;;          ("C-c n g" . org-roam-graph)
+;;          ("C-c n i" . org-roam-node-insert)
+;;          ("C-c n c" . org-roam-capture)
+;;          ;; Dailies
+;;          ("C-c n j" . org-roam-dailies-capture-today))
+;;   :config
+;;   (org-roam-db-autosync-mode))
 
-(use-package org-agenda
-  ;;:after (org org-roam)
-  :bind ("C-c a" . org-agenda)
-  :custom
-  (org-agenda-files
-   '("~/notes/org-src" "~/notes/org"
-     ))
-  )
+;; (use-package org-agenda
+;;   ;;:after (org org-roam)
+;;   :bind ("C-c a" . org-agenda)
+;;   )
 
 ;; (setq org-agenda-files
 ;;         `(;;"~/org";;,org-directory
@@ -84,17 +88,17 @@
 ;;           "~/notes/fudan"
 ;;           ))
 
-(use-package org-refile
-;;  :after (org-agenda)
-  :custom
-  (org-refile-targets '((nil)
-                        (org-agenda-files)))
-  )
+;; (use-package org-refile
+;; ;;  :after (org-agenda)
+;;   :custom
+;;   (org-refile-targets '((nil)
+;;                         (org-agenda-files)))
+;;   )
 
-(use-package ol
-  :bind (("C-c l" . org-store-link) ;; global
-         )
-  )
+;; (use-package ol
+;;   :bind (("C-c l" . org-store-link) ;; global
+;;          )
+;;   )
 
 (use-package ox-latex
   :defer t
@@ -115,9 +119,9 @@
   (org-html-mathjax-template
    "<script>
   window.MathJax = {
-    loader: {load: ['[tex]/mathtools']},
+    loader: {load: ['[tex]/mathtools', '[tex]/color', '[tex]/centernot']},
     tex: {
-      packages: {'[+]': ['mathtools']},
+      packages: {'[+]': ['mathtools', 'color', 'centernot']},
       ams: {
         multlineWidth: '%MULTLINEWIDTH'
       },
@@ -144,8 +148,7 @@
 
 <script
   id=\"MathJax-script\"
-  async
-  src=\"%PATH\">
+  src=\"https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js\">
 </script>")
   )
 
@@ -154,7 +157,8 @@
   :custom
   (org-export-with-creator nil)
   (org-export-with-date nil)
-  (org-export-with-sub-superscripts '{}))
+  (org-export-with-sub-superscripts '{})
+  (org-export-with-smart-quotes t))
 
 ;; Publishing
 (require 'init-org-publish)

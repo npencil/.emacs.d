@@ -1,4 +1,4 @@
-(setq default-directory "~/notes/")
+(setq default-directory "~/onedrive/notes")
 
 (global-auto-revert-mode t)
 

@@ -35,7 +35,7 @@
     )
    )
   (cdlatex-math-symbol-alist
-   '((?{ ("\\subseteq"))))
+   '((?{ ("\\subset"))))
   :bind (:map cdlatex-mode-map
               ("<" . nil)
               )

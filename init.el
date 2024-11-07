@@ -19,7 +19,7 @@
 ;; Ref:https://www.gnu.org/software/emacs/manual/html_node/ccmode/Config-Basics.html
 
 ;; Package
-
+(setq search-invisible t)
 (require 'init-package)
 (require 'init-use-package)
 
@@ -57,7 +57,7 @@
 ;; eglot
 ;; (require 'init-eglot)
 ;; lsp-mode
-(require 'init-lsp-mode)
+;;(require 'init-lsp-mode)
 
 ;; hungry-deletet
 (require 'init-hungry-delete)
@@ -98,14 +98,14 @@
 (require 'init-imenu-list)
 
 ;; Languages
-(require 'init-cpp)
-(require 'init-yaml)
-(require 'init-json)
+;;(require 'init-cpp)
+;;(require 'init-yaml)
+;;(require 'init-json)
 ;; - reftex, cdlatex, latex
 (require 'init-latex)
 (require 'init-markdown)
 (require 'init-org)
-(require 'init-python)
+;;(require 'init-python)
 (require 'init-coq)
 
 ;; flycheck
